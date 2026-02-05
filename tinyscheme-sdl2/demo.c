@@ -269,7 +269,7 @@ int main(int argc, char **argv)
         /* Load the texture image */
         if (! (texture = load_texture(
                        renderer,
-                       "/home/live/projects/tinyscheme-sdl2/iso-64x64-outside.png"))) {
+                       "/home/live/projects/tinyscheme-dev/tinyscheme-sdl2/iso-64x64-outside.png"))) {
                 goto destroy_renderer;
         }
 

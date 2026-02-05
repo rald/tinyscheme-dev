@@ -56,7 +56,7 @@
 
 
 
-(define window (sdl2-create-window "Line Test" 800 600))
+(define window (sdl2-create-window "Turtle" 800 600))
 (define renderer (sdl2-create-renderer window -1 0))
 (sdl2-set-render-draw-color renderer 0 0 0 255)
 (sdl2-render-clear renderer)
