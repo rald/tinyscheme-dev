@@ -68,13 +68,14 @@
 (let loop ((l 0))
 	(if (< l 10)
 		(begin
-			(define i (modulo (rand) 800))
-			(define j (modulo (rand) 600))
-			(define k (modulo (rand) 360))
+			(let 
+				((i (modulo (rand) 800))
+				(j (modulo (rand) 600))
+				(k (modulo (rand) 360)))
 			(jump i j)
 			(turn k)
 			(star (+ (modulo (rand) 100) 10))		
-			(loop (+ l 1)))))
+			(loop (+ l 1))))))
 
 
  
