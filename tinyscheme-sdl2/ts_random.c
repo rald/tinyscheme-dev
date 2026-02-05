@@ -29,7 +29,7 @@ static pointer ts_random_rand(scheme *sc, pointer args)
 }
 
 void init_ts_random(scheme *sc) {
-        scm_define_api_call(sc, "random-get-time", ts_random_get_time);
-        scm_define_api_call(sc, "random-srand", ts_random_srand);
-        scm_define_api_call(sc, "random-rand", ts_random_rand);
+        scm_define_api_call(sc, "time", ts_random_get_time);
+        scm_define_api_call(sc, "srand", ts_random_srand);
+        scm_define_api_call(sc, "rand", ts_random_rand);
 }

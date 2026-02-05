@@ -62,13 +62,22 @@
 (sdl2-render-clear renderer)
 
 
-(random-srand (random-get-time))
+
+(srand (time))
 (set-pen-color 0 255 0)
-(star (+ (modulo (random-rand) 100) 10))
-(star (+ (modulo (random-rand) 100) 10))
-(star (+ (modulo (random-rand) 100) 10))
+(let loop ((l 0))
+	(if (< l 10)
+		(begin
+			(define i (modulo (rand) 800))
+			(define j (modulo (rand) 600))
+			(define k (modulo (rand) 360))
+			(jump i j)
+			(turn k)
+			(star (+ (modulo (rand) 100) 10))		
+			(loop (+ l 1)))))
 
 
+ 
 (sdl2-render-present renderer)
 (sdl2-delay 5000)
 (sdl2-destroy-renderer renderer)
