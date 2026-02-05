@@ -64,18 +64,21 @@
 
 
 (srand (time))
-(set-pen-color 0 255 0)
 (let loop ((l 0))
 	(if (< l 10)
 		(begin
 			(let 
 				((i (modulo (rand) 800))
 				(j (modulo (rand) 600))
-				(k (modulo (rand) 360)))
-			(jump i j)
-			(turn k)
-			(star (+ (modulo (rand) 100) 10))		
-			(loop (+ l 1))))))
+				(k (modulo (rand) 360))
+				(r (modulo (rand) 256))
+				(g (modulo (rand) 256))
+				(b (modulo (rand) 256)))
+					(jump i j)
+					(turn k)
+					(set-pen-color r g b)
+					(star (+ (modulo (rand) 100) 10)))
+	(loop (+ l 1)))))
 
 
  
