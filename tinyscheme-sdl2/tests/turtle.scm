@@ -1,5 +1,5 @@
-(load-extension "./ts_sdl2")
-(load-extension "./ts_random")
+(load-extension "../ts_sdl2")
+(load-extension "../ts_random")
 
 
 
