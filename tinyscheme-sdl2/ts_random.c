@@ -4,13 +4,11 @@
 #include <stdlib.h>
 #include <time.h>
 
-static pointer ts_random_get_time(scheme *sc, pointer args)
-{
+static pointer ts_random_time(scheme *sc, pointer args) {
 	return scm_mk_int(sc, time(NULL));
 }
 
-static pointer ts_random_srand(scheme *sc, pointer args)
-{
+static pointer ts_random_srand(scheme *sc, pointer args) {
 	int seed=0;
 
     if (scm_unpack(sc, &args, "d", &seed)) {
@@ -23,13 +21,12 @@ static pointer ts_random_srand(scheme *sc, pointer args)
 	return sc->T;
 }
 
-static pointer ts_random_rand(scheme *sc, pointer args)
-{
+static pointer ts_random_rand(scheme *sc, pointer args) {
 	return scm_mk_int(sc, rand());
 }
 
 void init_ts_random(scheme *sc) {
-        scm_define_api_call(sc, "time", ts_random_get_time);
-        scm_define_api_call(sc, "srand", ts_random_srand);
-        scm_define_api_call(sc, "rand", ts_random_rand);
+	scm_define_api_call(sc, "time", ts_random_time);
+	scm_define_api_call(sc, "srand", ts_random_srand);
+	scm_define_api_call(sc, "rand", ts_random_rand);
 }

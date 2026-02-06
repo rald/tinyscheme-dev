@@ -11,8 +11,9 @@
 
 
 
-
 (define (d2r d) (/ (* d *PI*) 180))
+
+
 
 (define (pen-down) (set! *is-pen-down* #t))
 
@@ -31,5 +32,6 @@
 
 (define (jump i j) (set! *x* i) (set! *y* j))
 
-(define (set-heading a) (set! *h* a))
+(define (face a) (set! *h* a))
+
 

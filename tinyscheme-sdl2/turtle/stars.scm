@@ -1,5 +1,7 @@
 #!/usr/bin/env scheme
 
+
+
 (load "turtle.scm")
 
 
@@ -49,7 +51,7 @@
 				(b (modulo (rand) 256))
 				(s (+ (modulo (rand) 100) 10)))
 					(jump i j)
-					(turn k)
+					(face k)
 					(set-pen-color r g b)
 					(star s))
 	(loop (+ l 1)))))

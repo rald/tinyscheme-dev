@@ -717,7 +717,7 @@
 
 
 
-(load "/home/live/projects/tinyscheme-dev/tinyscheme-1.42/TheLittleSchemer.scm")
+;(load "/home/live/projects/tinyscheme-dev/tinyscheme-1.42/TheLittleSchemer.scm")
 
 
 
