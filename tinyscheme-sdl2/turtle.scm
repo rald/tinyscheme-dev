@@ -5,36 +5,36 @@
 
 
 
-(define PI 3.1415926)
-(define x 400)
-(define y 300)
-(define h -90)
-(define is-pen-down #t)
+(define *PI* 3.1415926)
+(define *x* 400)
+(define *y* 300)
+(define *h* -90)
+(define *is-pen-down* #t)
 
 
 
 
-(define (d2r d) (/ (* d PI) 180))
+(define (d2r d) (/ (* d *PI*) 180))
 
-(define (pen-down) (set! is-pen-down #t))
+(define (pen-down) (set! *is-pen-down* #t))
 
-(define (pen-up)   (set! is-pen-down #f))
+(define (pen-up)   (set! *is-pen-down* #f))
 
 (define (set-pen-color r g b) (sdl2-set-render-draw-color renderer r g b 255))
 
 (define (move d) 
-	(define nx (+ x (* d (cos (d2r h)))))
-	(define ny (+ y (* d (sin (d2r h)))))
-	(if is-pen-down (sdl2-render-draw-line renderer x y nx ny))
-	(set! x nx)
-	(set! y ny))
+	(define nx (+ *x* (* d (cos (d2r *h*)))))
+	(define ny (+ *y* (* d (sin (d2r *h*)))))
+	(if *is-pen-down* (sdl2-render-draw-line renderer *x* *y* nx ny))
+	(set! *x* nx)
+	(set! *y* ny))
 
 (define (turn a)
-	(set! h (+ h a)))
+	(set! *h* (+ *h* a)))
 
 (define (jump i j) 
-	(set! x i)
-	(set! y j))
+	(set! *x* i)
+	(set! *y* j))
 
 
 
