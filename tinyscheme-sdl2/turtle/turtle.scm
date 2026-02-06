@@ -31,20 +31,5 @@
 
 (define (jump i j) (set! *x* i) (set! *y* j))
 
-
-
-(define (star s) 
-	(turn 18)
-	(do ((i 0 (+ i 1)))
-	    ((>= i 5))
-	  (move s)
-	  (turn 144)))
-
-(define (poly sides size) 
-	(do ((i 0 (+ i 1)))
-	    ((>= i sides))
-	  (move size)
-	  (turn (/ 360 sides))))
-
-
+(define (set-heading a) (set! *h* a))
 

@@ -4,6 +4,31 @@
 
 
 
+(define (star s) 
+	(turn 18)
+	(do ((i 0 (+ i 1)))
+	    ((>= i 5))
+	  (move s)
+	  (turn 144)))
+
+(define (poly sides size) 
+	(do ((i 0 (+ i 1)))
+	    ((>= i sides))
+	  (move size)
+	  (turn (/ 360 sides))))
+
+(define (circle r)
+	(let* 	((circ (* 2 *PI* r))
+			(steps 360)
+			(step-distance (/ circ steps)))
+
+		(do	((i 0 (+ i 1)))
+			((>= i steps))
+				(move step-distance)
+				(turn 1))))
+
+
+
 (define window (sdl2-create-window "Stars" 800 600))
 (define renderer (sdl2-create-renderer window -1 0))
 (sdl2-set-render-draw-color renderer 0 0 0 255)
@@ -30,7 +55,7 @@
 	(loop (+ l 1)))))
 
 
- 
+
 (sdl2-render-present renderer)
 (sdl2-delay 5000)
 (sdl2-destroy-renderer renderer)
