@@ -5,7 +5,7 @@
 
 
 
-(define *PI* 3.1415926)
+(define *PI* 3.141592653589793)
 (define *x* 400)
 (define *y* 300)
 (define *h* -90)
@@ -29,12 +29,9 @@
 	(set! *x* nx)
 	(set! *y* ny))
 
-(define (turn a)
-	(set! *h* (+ *h* a)))
+(define (turn a) (set! *h* (+ *h* a)))
 
-(define (jump i j) 
-	(set! *x* i)
-	(set! *y* j))
+(define (jump i j) (set! *x* i) (set! *y* j))
 
 
 
