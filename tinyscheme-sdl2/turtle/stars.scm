@@ -19,26 +19,26 @@
 
 
 
-(ts-util-srand (ts-util-time))
+(util-srand (util-time))
 (turtle-set-color 0 0 0 255)
 (turtle-clean)
 
 (do ((i 0 (+ i 1))) ((>= i 10))
 
     (turtle-jump
-        (modulo (ts-util-rand) 640)
-        (modulo (ts-util-rand) 480)
+        (modulo (util-rand) 640)
+        (modulo (util-rand) 480)
     )
 
-    (turtle-face (modulo (ts-util-rand) 360))
+    (turtle-face (modulo (util-rand) 360))
 
     (turtle-set-color
-        (modulo (ts-util-rand) 255)
-        (modulo (ts-util-rand) 255)
-        (modulo (ts-util-rand) 255)
+        (modulo (util-rand) 255)
+        (modulo (util-rand) 255)
+        (modulo (util-rand) 255)
         255)
 
-    (turtle-star (+ 50 (modulo (ts-util-rand) 50)))
+    (turtle-star (+ 50 (modulo (util-rand) 50)))
 )
 
 (sdl2-render-present *renderer*)

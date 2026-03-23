@@ -26,9 +26,9 @@ static pointer ts_util_rand(scheme *sc, pointer args) {
 }
 
 void init_ts_util(scheme *sc) {
-	scm_define_api_call(sc, "ts-util-time", ts_util_time);
-	scm_define_api_call(sc, "ts-util-srand", ts_util_srand);
-	scm_define_api_call(sc, "ts-util-rand", ts_util_rand);
+	scm_define_api_call(sc, "util-time", ts_util_time);
+	scm_define_api_call(sc, "util-srand", ts_util_srand);
+	scm_define_api_call(sc, "util-rand", ts_util_rand);
 }
 
 
