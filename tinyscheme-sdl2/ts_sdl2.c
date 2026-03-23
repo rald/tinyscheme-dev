@@ -40,21 +40,12 @@ static pointer ts_sdl2_init(scheme *sc, pointer args)
  */
 static pointer ts_sdl2_create_window(scheme *sc, pointer args)
 {
-
-		char *title=NULL;
-		int width,height;
-
-		SDL_Window *window;
-
-        if (scm_unpack(sc, &args, "sdd", &title, &width, &height)) {
-                log_error("%s: %s\n", __FUNCTION__, scm_get_error());
-                return sc->NIL;
-        }
+        SDL_Window *window;
 
         /* Create the main window */
         if (! (window = SDL_CreateWindow(
-                       title, SDL_WINDOWPOS_UNDEFINED,
-                       SDL_WINDOWPOS_UNDEFINED, width, height,
+                       "Demo", SDL_WINDOWPOS_UNDEFINED,
+                       SDL_WINDOWPOS_UNDEFINED, 640, 480,
                        SDL_WINDOW_OPENGL | SDL_WINDOW_SHOWN))) {
                 log_error("SDL_CreateWindow: %s\n", SDL_GetError());
                 return sc->NIL;
@@ -415,15 +406,6 @@ static pointer ts_sdl2_render_copy(scheme *sc, pointer args)
         return sc->T;
 }
 
-static pointer ts_sdl2_make_event(scheme *sc, pointer args) {
-	SDL_Event *event=malloc(sizeof(*event));
-    pointer head = sc->NIL;
-    if (scm_pack(sc, &head, "p", event)) {
-            log_error("%s: %s\n", __FUNCTION__, scm_get_error());
-            head = sc->NIL;
-    }
-	return head;
-}
 
 /**
  * Initialize this dynamic extension.
@@ -451,7 +433,6 @@ void init_ts_sdl2(scheme *sc)
         scm_define_api_call(sc, "sdl2-render-present", ts_sdl2_render_present);
         scm_define_api_call(sc, "sdl2-set-render-draw-color", ts_sdl2_set_render_draw_color);
         scm_define_api_call(sc, "sdl2-render-copy", ts_sdl2_render_copy);
-        scm_define_api_call(sc, "sdl2-make-event", ts_sdl2_make_event);
         scm_define_int(sc, "sdl2-alpha-opaque", SDL_ALPHA_OPAQUE);
         scm_define_int(sc, "sdl2-mouse-button-down", SDL_MOUSEBUTTONDOWN);
         scm_define_int(sc, "sdl2-quit", SDL_QUIT);

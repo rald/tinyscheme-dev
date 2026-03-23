@@ -6,21 +6,21 @@
 
 
 
-(define (star s) 
+(define (star s)
 	(turn 18)
 	(do ((i 0 (+ i 1)))
-	    ((>= i 5))
-	  (move s)
-	  (turn 144)))
+            ((>= i 5))
+        (move s)
+        (turn 144)))
 
-(define (poly sides size) 
+(define (poly sides size)
 	(do ((i 0 (+ i 1)))
-	    ((>= i sides))
-	  (move size)
-	  (turn (/ 360 sides))))
+            ((>= i sides))
+        (move size)
+        (turn (/ 360 sides))))
 
 (define (circle r)
-	(let* 	((circ (* 2 *PI* r))
+	(let*   ((circ (* 2 *PI* r))
 			(steps 360)
 			(step-distance (/ circ steps)))
 
@@ -42,7 +42,7 @@
 (let loop ((l 0))
 	(if (< l 10)
 		(begin
-			(let 
+			(let
 				((i (modulo (rand) 800))
 				(j (modulo (rand) 600))
 				(k (modulo (rand) 360))

@@ -714,11 +714,3 @@
             (else (error "cond-expand : unknown operator" (car condition)))))))
 
 (gc-verbose #f)
-
-
-
-;(load "/home/live/projects/tinyscheme-dev/tinyscheme-1.42/TheLittleSchemer.scm")
-
-
-
-

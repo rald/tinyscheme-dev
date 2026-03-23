@@ -50,11 +50,11 @@
   (cons (/ (+ (/ x 32) (/ y 16)) 2)
         (/ (- (/ y 16) (/ x 32)) 2)))
 
-(let* ((window (sdl2-create-window "Demo" 640 480))
+(let* ((window (sdl2-create-window))
        (renderer (sdl2-create-renderer window))
        (rocks '(rocks . ()))
        (texture (sdl2-load-texture renderer
-                 "/home/live/projects/tinyscheme-dev/tinyscheme-sdl2/iso-64x64-outside.png"))
+                 "/home/gmcnutt/Dropbox/projects/art/iso-64x64-outside.png"))
        )
   (define (clear-screen)
     (sdl2-set-render-draw-color renderer 255 255 255 sdl2-alpha-opaque)
