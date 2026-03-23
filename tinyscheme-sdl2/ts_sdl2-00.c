@@ -1,5 +1,3 @@
-// file: ts_sdl2.c
-
 #include "log.h"
 #include "scm.h"
 #include <SDL2/SDL.h>
@@ -221,10 +219,14 @@ static pointer ts_sdl2_render_present(scheme *sc, pointer args)
 
 
 /**
- * Wrapper for SDL_PollEvent with key events support.
+ * Wrapper for SDL_PollEvent. Returns a list where the first element is the
+ * event type and the remaining elements depend on the type.
  *
- * Returns a list where the first element is the event type and remaining
- * elements depend on the type.
+ * (let ((event (sdl2-poll-event))) ...)
+ *
+ * Return details:
+ *   default: '(<type>)
+ *   Mouse button down: '(<type> <x> <y>)
  */
 static pointer ts_sdl2_poll_event(scheme *sc, pointer args)
 {
@@ -239,19 +241,9 @@ static pointer ts_sdl2_poll_event(scheme *sc, pointer args)
         case SDL_MOUSEBUTTONDOWN:
                 if (scm_pack(sc, &head, "ddd", event.type, event.button.x,
                              event.button.y)) {
-                        log_error("%s: %s\\n", __FUNCTION__, scm_get_error());
+                        log_error("%s: %s\n", __FUNCTION__, scm_get_error());
                         head = sc->NIL;
                 }
-                break;
-        case SDL_KEYDOWN:
-                if (scm_pack(sc, &head, "dd", event.type, 
-                             event.key.keysym.scancode)) {
-                        log_error("%s: %s\\n", __FUNCTION__, scm_get_error());
-                        head = sc->NIL;
-                }
-                break;
-        case SDL_QUIT:
-                head = scm_cons(sc, scm_mk_int(sc, event.type), sc->NIL);
                 break;
         default:
                 head = scm_cons(sc, scm_mk_int(sc, event.type), sc->NIL);
@@ -426,28 +418,22 @@ static pointer ts_sdl2_render_copy(scheme *sc, pointer args)
  */
 void init_ts_sdl2(scheme *sc)
 {
-    scm_define_api_call(sc, "sdl2-create-renderer", ts_sdl2_create_renderer);
-    scm_define_api_call(sc, "sdl2-create-window", ts_sdl2_create_window);
-    scm_define_api_call(sc, "sdl2-delay", ts_sdl2_delay);
-    scm_define_api_call(sc, "sdl2-destroy-renderer", ts_sdl2_destroy_renderer);
-    scm_define_api_call(sc, "sdl2-destroy-texture", ts_sdl2_destroy_texture);
-    scm_define_api_call(sc, "sdl2-destroy-window", ts_sdl2_destroy_window);
-    scm_define_api_call(sc, "sdl2-get-ticks", ts_sdl2_get_ticks);
-    scm_define_api_call(sc, "sdl2-init", ts_sdl2_init);
-    scm_define_api_call(sc, "sdl2-load-texture", ts_sdl2_load_texture);
-    scm_define_api_call(sc, "sdl2-poll-event", ts_sdl2_poll_event);
-    scm_define_api_call(sc, "sdl2-render-clear", ts_sdl2_render_clear);
-    scm_define_api_call(sc, "sdl2-render-draw-line", ts_sdl2_render_draw_line);
-    scm_define_api_call(sc, "sdl2-render-present", ts_sdl2_render_present);
-    scm_define_api_call(sc, "sdl2-set-render-draw-color", ts_sdl2_set_render_draw_color);
-    scm_define_api_call(sc, "sdl2-render-copy", ts_sdl2_render_copy);
-
-    // Add missing constants for event handling
-    scm_define_int(sc, "sdl2-alpha-opaque", SDL_ALPHA_OPAQUE);
-    scm_define_int(sc, "sdl2-mouse-button-down", SDL_MOUSEBUTTONDOWN);
-    scm_define_int(sc, "sdl2-quit", SDL_QUIT);
-    scm_define_int(sc, "sdl2-key-down", SDL_KEYDOWN);
-    scm_define_int(sc, "sdl2-scancode-escape", SDL_SCANCODE_ESCAPE);
+        scm_define_api_call(sc, "sdl2-create-renderer", ts_sdl2_create_renderer);
+        scm_define_api_call(sc, "sdl2-create-window", ts_sdl2_create_window);
+        scm_define_api_call(sc, "sdl2-delay", ts_sdl2_delay);
+        scm_define_api_call(sc, "sdl2-destroy-renderer", ts_sdl2_destroy_renderer);
+        scm_define_api_call(sc, "sdl2-destroy-texture", ts_sdl2_destroy_texture);
+        scm_define_api_call(sc, "sdl2-destroy-window", ts_sdl2_destroy_window);
+        scm_define_api_call(sc, "sdl2-get-ticks", ts_sdl2_get_ticks);
+        scm_define_api_call(sc, "sdl2-init", ts_sdl2_init);
+        scm_define_api_call(sc, "sdl2-load-texture", ts_sdl2_load_texture);
+        scm_define_api_call(sc, "sdl2-poll-event", ts_sdl2_poll_event);
+        scm_define_api_call(sc, "sdl2-render-clear", ts_sdl2_render_clear);
+        scm_define_api_call(sc, "sdl2-render-draw-line", ts_sdl2_render_draw_line);
+        scm_define_api_call(sc, "sdl2-render-present", ts_sdl2_render_present);
+        scm_define_api_call(sc, "sdl2-set-render-draw-color", ts_sdl2_set_render_draw_color);
+        scm_define_api_call(sc, "sdl2-render-copy", ts_sdl2_render_copy);
+        scm_define_int(sc, "sdl2-alpha-opaque", SDL_ALPHA_OPAQUE);
+        scm_define_int(sc, "sdl2-mouse-button-down", SDL_MOUSEBUTTONDOWN);
+        scm_define_int(sc, "sdl2-quit", SDL_QUIT);
 }
-
-

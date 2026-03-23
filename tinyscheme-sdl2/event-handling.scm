@@ -1,21 +1,18 @@
-;; Event handling.
-;;
-;; Assumes (load-extension "sdl2") has been done.
-
+;; file: event-handling.scm - ULTRA SIMPLE VERSION
 (define *event-handlers* '())
 
-(define (add-event-handler event handler)
-  (set! *event-handlers* (cons (cons event handler) *event-handlers*)))
-
-(define (lookup-event-handler event handlers)
-  (cond ((null? handlers) '())
-        ((eqv? (caar handlers) (car event)) (cdar handlers))
-        (else (lookup-event-handler event (cdr handlers)))))
+(define (add-event-handler event-id handler)
+  (set! *event-handlers* (cons (cons event-id handler) *event-handlers*)))
 
 (define (handle-event event)
-  (cond ((null? event) #t)
+  (cond ((not event) #t)
+        ((not (pair? event)) #t)
+        ((null? *event-handlers*) #t)
         (else
-         (let ((handler (lookup-event-handler event *event-handlers*)))
-           (cond ((null? handler) #t)
-                 (else
-                  (apply handler event)))))))
+         (let ((event-id (car event))
+               (handlers *event-handlers*))
+           (let loop ((handlers handlers))
+             (cond ((null? handlers) #t)
+                   ((eqv? event-id (caar handlers))
+                    (apply (cdar handlers) event))
+                   (else (loop (cdr handlers)))))))))
