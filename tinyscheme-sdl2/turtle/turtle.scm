@@ -22,7 +22,7 @@
         (set! *x* nx)
         (set! *y* ny)))
 
-(define (turtle-turn a) (set! *heading* (+ *heading* a)))
+(define (turtle-turn angle) (set! *heading* (+ *heading* angle)))
 
 (define (turtle-pen-down) (set! *isPenDown* #t))
 
