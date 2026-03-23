@@ -54,7 +54,7 @@
        (renderer (sdl2-create-renderer window))
        (rocks '(rocks . ()))
        (texture (sdl2-load-texture renderer
-                 "/home/gmcnutt/Dropbox/projects/art/iso-64x64-outside.png"))
+                 "iso-64x64-outside.png"))
        )
   (define (clear-screen)
     (sdl2-set-render-draw-color renderer 255 255 255 sdl2-alpha-opaque)
