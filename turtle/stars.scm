@@ -23,7 +23,7 @@
 
 
 (util-srand (util-time))
-(turtle-set-color 0 0 0 255)
+(turtle-set-color 0 0 0 sdl2-alpha-opaque)
 (turtle-clean)
 
 (do ((i 0 (+ i 1))) ((>= i 10))
@@ -38,7 +38,7 @@
         (modulo (util-rand) 255)
         (modulo (util-rand) 255)
         (modulo (util-rand) 255)
-        255)
+        sdl2-alpha-opaque)
 
     (turtle-star (+ 50 (modulo (util-rand) 50)))
 )
