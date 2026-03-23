@@ -24,9 +24,9 @@
 
 (define (turtle-turn a) (set! *heading* (+ *heading* a)))
 
-(define (turtle-pen-down) (set! isPenDown #t))
+(define (turtle-pen-down) (set! *isPenDown* #t))
 
-(define (turtle-pen-up) (set! isPenDown #f))
+(define (turtle-pen-up) (set! *isPenDown* #f))
 
 (define (turtle-jump x y)
     (set! *x* x)
