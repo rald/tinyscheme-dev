@@ -9,7 +9,7 @@
 (define *y* 240.0)
 (define *h* 0.0)
 (define *isPenDown* #t)
-(define *PI* 3.1416)
+(define *PI* 3.14159265358979323846)
 
 (define window (sdl2-create-window))
 (define renderer (sdl2-create-renderer window))
@@ -43,17 +43,27 @@
 
 
 (turtle-clean)
-(turtle-set-color 255 255 255 255)
+
+(turtle-set-color
+    (modulo (rand) 255)
+    (modulo (rand) 255)
+    (modulo (rand) 255)
+    255)
 
 (do ((i 0 (+ i 1))) ((>= i 5))
-    (turtle-move 100) (turtle-turn 144))
+    (turtle-move 100)
+    (turtle-turn 144))
 
 (sdl2-render-present renderer)
 
 (do () ((not *running*))
     (let ((event (sdl2-poll-event)))
         (if (not (eq? event #f))
-            (handle-event event))))
+            (handle-event event)))
+)
 
 (sdl2-destroy-renderer renderer)
 (sdl2-destroy-window window)
+
+
+
