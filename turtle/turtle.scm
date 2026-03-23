@@ -1,6 +1,6 @@
-(load-extension "../ts_sdl2")
-(load-extension "../ts_util")
-(load "../event-handling.scm")
+(load-extension "../tinyscheme-sdl2/ts_sdl2")
+(load-extension "../tinyscheme-sdl2/ts_util")
+(load "../tinyscheme-sdl2/event-handling.scm")
 
 
 

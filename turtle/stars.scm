@@ -6,6 +6,7 @@
 (define *screen-height* 480)
 
 
+
 (sdl2-init)
 
 (define *window* (sdl2-create-window *screen-width* *screen-height*))
@@ -29,8 +30,7 @@
 
     (turtle-jump
         (modulo (util-rand) 640)
-        (modulo (util-rand) 480)
-    )
+        (modulo (util-rand) 480))
 
     (turtle-face (modulo (util-rand) 360))
 
