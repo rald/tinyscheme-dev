@@ -2,11 +2,13 @@
 
 (load "./turtle.scm")
 
+(define *screen-width* 640)
+(define *screen-height* 480)
 
 
 (sdl2-init)
 
-(define *window* (sdl2-create-window))
+(define *window* (sdl2-create-window *screen-width* *screen-height*))
 (define *renderer* (sdl2-create-renderer *window*))
 
 (add-event-handler sdl2-key-down

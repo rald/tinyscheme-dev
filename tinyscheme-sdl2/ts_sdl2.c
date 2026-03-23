@@ -43,18 +43,24 @@ static pointer ts_sdl2_init(scheme *sc, pointer args)
 static pointer ts_sdl2_create_window(scheme *sc, pointer args)
 {
         SDL_Window *window;
+        int width, height;
+
+        if (scm_unpack(sc, &args, "dd", &width, &height)) {
+                log_error("%s: %s\n", __FUNCTION__, scm_get_error());
+                return sc->NIL;
+        }
 
         /* Create the main window */
         if (! (window = SDL_CreateWindow(
                        "Demo", SDL_WINDOWPOS_UNDEFINED,
-                       SDL_WINDOWPOS_UNDEFINED, 640, 480,
+                       SDL_WINDOWPOS_UNDEFINED, width, height,
                        SDL_WINDOW_OPENGL | SDL_WINDOW_SHOWN))) {
                 log_error("SDL_CreateWindow: %s\n", SDL_GetError());
                 return sc->NIL;
         }
 
         /* Return the window as a foreign pointer. */
-        log_debug("%s:%p\n", __FUNCTION__, window);
+        log_debug("%s: %p\n", __FUNCTION__, window);
         return scm_mk_ptr(sc, window);
 }
 
@@ -73,7 +79,7 @@ static pointer ts_sdl2_destroy_window(scheme *sc, pointer args)
                 return sc->NIL;
         }
 
-        log_debug("%s:%p\n", __FUNCTION__, window);
+        log_debug("%s: %p\n", __FUNCTION__, window);
         SDL_DestroyWindow(window);
         return sc->T;
 }
@@ -99,7 +105,7 @@ static pointer ts_sdl2_create_renderer(scheme *sc, pointer args)
                 return sc->NIL;
         }
 
-        log_debug("%s:%p\n", __FUNCTION__, renderer);
+        log_debug("%s: %p\n", __FUNCTION__, renderer);
         return scm_mk_ptr(sc, renderer);
 }
 
@@ -118,7 +124,7 @@ static pointer ts_sdl2_destroy_renderer(scheme *sc, pointer args)
                 return sc->NIL;
         }
 
-        log_debug("%s:%p\n", __FUNCTION__, renderer);
+        log_debug("%s: %p\n", __FUNCTION__, renderer);
 
         SDL_DestroyRenderer(renderer);
         return sc->T;
@@ -303,7 +309,7 @@ static pointer ts_sdl2_load_texture(scheme *sc, pointer args)
         pointer result = sc->NIL;
 
         if (scm_unpack(sc, &args, "ps", &renderer, &filename)) {
-                log_error("%s:%s\n", __FUNCTION__, scm_get_error());
+                log_error("%s: %s\n", __FUNCTION__, scm_get_error());
                 return sc->NIL;
         }
 
@@ -318,18 +324,18 @@ static pointer ts_sdl2_load_texture(scheme *sc, pointer args)
         }
 
         if (! (surface = IMG_Load(filename))) {
-                log_error("%s:%s:IMG_Load:%s\n", __FUNCTION__, filename,
-			  SDL_GetError());
+                log_error("%s: %s: IMG_Load: %s\n", __FUNCTION__, filename,
+			    SDL_GetError());
                 return sc->NIL;
         }
 
         if (! (texture = SDL_CreateTextureFromSurface(renderer, surface))) {
-                log_error("%s:SDL_CreateTextureFromSurface:%s\n",
+                log_error("%s: SDL_CreateTextureFromSurface: %s\n",
                           __FUNCTION__, SDL_GetError());
                 goto free_surface;
         }
 
-        log_debug("%s:%p\n", __FUNCTION__, texture);
+        log_debug("%s: %p\n", __FUNCTION__, texture);
         result = scm_mk_ptr(sc, texture);
 
 free_surface:
@@ -350,7 +356,7 @@ static pointer ts_sdl2_destroy_texture(scheme *sc, pointer args)
                 return sc->NIL;
         }
 
-        log_debug("%s:%p\n", __FUNCTION__, texture);
+        log_debug("%s: %p\n", __FUNCTION__, texture);
         SDL_DestroyTexture(texture);
         return sc->T;
 }
@@ -374,7 +380,7 @@ static pointer ts_sdl2_render_copy(scheme *sc, pointer args)
 
         if (scm_unpack(sc, &args, "ppll", &renderer, &texture, &slist,
                        &dlist)) {
-                log_error("%s:%s\n", __FUNCTION__, scm_get_error());
+                log_error("%s: %s\n", __FUNCTION__, scm_get_error());
                 return sc->NIL;
         }
 
@@ -390,7 +396,7 @@ static pointer ts_sdl2_render_copy(scheme *sc, pointer args)
 
         if (slist != sc->NIL) {
                 if (_scm_unpack_rect(sc, &slist, &src)) {
-                        log_error("%s:source:%s\n", __FUNCTION__,
+                        log_error("%s: source: %s\n", __FUNCTION__,
                                   scm_get_error());
                         return sc->NIL;
                 }
@@ -399,7 +405,7 @@ static pointer ts_sdl2_render_copy(scheme *sc, pointer args)
 
         if (dlist != sc->NIL) {
                 if (_scm_unpack_rect(sc, &dlist, &dst)) {
-                        log_error("%s:source:%s\n", __FUNCTION__,
+                        log_error("%s: source: %s\n", __FUNCTION__,
                                   scm_get_error());
                         return sc->NIL;
                 }
@@ -407,7 +413,7 @@ static pointer ts_sdl2_render_copy(scheme *sc, pointer args)
         }
 
         if (SDL_RenderCopy(renderer, texture, psrc, pdst)) {
-                log_error("%s:SDL_RenderCopy:%s\n", __FUNCTION__,
+                log_error("%s: SDL_RenderCopy: %s\n", __FUNCTION__,
                           SDL_GetError());
                 return sc->NIL;
         }
