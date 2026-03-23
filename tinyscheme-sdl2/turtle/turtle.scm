@@ -41,8 +41,9 @@
     (set! *x* x)
     (set! *y* y))
 
+(define (turtle-face angle) (set! *heading* angle))
+
 (define (turtle-clean)
-    (sdl2-set-render-draw-color *renderer* 0 0 0 255)
     (sdl2-render-clear *renderer*)
     (sdl2-render-present *renderer*))
 
@@ -57,18 +58,25 @@
 
 
 (ts-util-srand (ts-util-time))
-
+(turtle-set-color 0 0 0 255)
 (turtle-clean)
+(do ((i 0 (+ i 1))) ((>= i 10))
 
-(turtle-set-color
-    (modulo (ts-util-rand) 255)
-    (modulo (ts-util-rand) 255)
-    (modulo (ts-util-rand) 255)
-    255)
+    (turtle-jump
+        (modulo (ts-util-rand) 640)
+        (modulo (ts-util-rand) 480)
+    )
 
-(turtle-star 100)
+    (turtle-face (modulo (ts-util-rand) 360))
 
+    (turtle-set-color
+        (modulo (ts-util-rand) 255)
+        (modulo (ts-util-rand) 255)
+        (modulo (ts-util-rand) 255)
+        255)
 
+    (turtle-star (+ 50 (modulo (ts-util-rand) 50)))
+)
 (sdl2-render-present *renderer*)
 
 
