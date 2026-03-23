@@ -32,6 +32,10 @@
     (set! *x* x)
     (set! *y* y))
 
+(define (turtle-home)
+    (set! *x* 320)
+    (set! *y* 240))
+
 (define (turtle-face angle) (set! *heading* angle))
 
 (define (turtle-clean)
