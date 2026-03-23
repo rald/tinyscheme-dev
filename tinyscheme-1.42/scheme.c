@@ -101,7 +101,7 @@ static const char *strlwr(char *s) {
 #endif
 
 #ifndef InitFile
-# define InitFile "/home/live/projects/tinyscheme-dev/tinyscheme-1.42/init.scm"
+# define InitFile "/home/fria/projects/tinyscheme-dev/tinyscheme-1.42/init.scm"
 #endif
 
 #ifndef FIRST_CELLSEGS
