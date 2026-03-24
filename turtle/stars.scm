@@ -26,7 +26,6 @@
 (turtle-set-pen-color 0 0 0 sdl2-alpha-opaque)
 (turtle-clean)
 
-
 (do ((i 0 (+ i 1))) ((= i 100))
     (turtle-jump
         (modulo (util-rand) *screen-width*)
@@ -44,6 +43,7 @@
 
     (turtle-star (+ 50 (modulo (util-rand) 50)))
 )
+
 
 
 (sdl2-render-present *renderer*)
