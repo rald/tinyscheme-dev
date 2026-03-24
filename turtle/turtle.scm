@@ -8,7 +8,7 @@
 (define *x* 320.0)
 (define *y* 240.0)
 (define *heading* 0.0)
-(define *isPenDown* #t)
+(define *is-pen-down* #t)
 (define *PI* 3.14159265358979323846)
 (define *running* #t)
 
@@ -19,15 +19,15 @@
 (define (turtle-move distance)
     (let* ((nx (+ *x* (* distance (cos (deg2rad *heading*)))))
            (ny (+ *y* (* distance (sin (deg2rad *heading*))))))
-        (if *isPenDown* (sdl2-render-draw-line *renderer* *x* *y* nx ny))
+        (if *is-pen-down* (sdl2-render-draw-line *renderer* *x* *y* nx ny))
         (set! *x* nx)
         (set! *y* ny)))
 
 (define (turtle-turn angle) (set! *heading* (+ *heading* angle)))
 
-(define (turtle-pen-down) (set! *isPenDown* #t))
+(define (turtle-pen-down) (set! *is-pen-down* #t))
 
-(define (turtle-pen-up) (set! *isPenDown* #f))
+(define (turtle-pen-up) (set! *is-pen-down* #f))
 
 (define (turtle-set-pen-color r g b a)
     (sdl2-set-render-draw-color *renderer* r g b a))
