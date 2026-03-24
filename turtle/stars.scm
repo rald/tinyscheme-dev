@@ -55,3 +55,6 @@
 
 (sdl2-destroy-renderer *renderer*)
 (sdl2-destroy-window *window*)
+
+
+
