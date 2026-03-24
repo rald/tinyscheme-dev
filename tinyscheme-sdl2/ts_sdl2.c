@@ -178,6 +178,32 @@ static pointer ts_sdl2_render_clear(scheme *sc, pointer args)
         return sc->T;
 }
 
+/**
+ * Wrapper for SDL_RenderDrawPoint.
+ *
+ * (sdl2-render-draw-point renderer x0 y0)
+ *
+ * Draws a point on the current rendering target.
+ */
+static pointer ts_sdl2_render_draw_point(scheme *sc, pointer args)
+{
+        SDL_Renderer *renderer=NULL;
+        int x0, y0;
+
+        if (scm_unpack(sc, &args, "pdd", &renderer, &x0, &y0)) {
+                log_error("%s: %s\n", __FUNCTION__, scm_get_error());
+                return sc->NIL;
+        }
+
+        if (! renderer) {
+                log_error("%s: NULL renderer\n", __FUNCTION__);
+                return sc->NIL;
+        }
+
+        SDL_RenderDrawPoint(renderer, x0, y0);
+
+        return sc->T;
+}
 
 /**
  * Wrapper for SDL_RenderDrawLine.
@@ -200,7 +226,9 @@ static pointer ts_sdl2_render_draw_line(scheme *sc, pointer args)
                 log_error("%s: NULL renderer\n", __FUNCTION__);
                 return sc->NIL;
         }
+
         SDL_RenderDrawLine(renderer, x0, y0, x1, y1);
+
         return sc->T;
 }
 
@@ -294,6 +322,44 @@ static pointer ts_sdl2_get_ticks(scheme *sc, pointer args)
         return scm_mk_int(sc, SDL_GetTicks());
 }
 
+/**
+ * Wrapper that combines IMG_Load with SDL_CreateTexture.
+ *
+ * (sdl2-create-texture renderer width height)
+ */
+static pointer ts_sdl2_create_texture(scheme *sc, pointer args)
+{
+        SDL_Renderer *renderer=NULL;
+        SDL_Surface *surface=NULL;
+        SDL_Texture *texture=NULL;
+        int width, height;
+        pointer result = sc->NIL;
+
+        if (scm_unpack(sc, &args, "pdd", &renderer, &width, &height)) {
+                log_error("%s: %s\n", __FUNCTION__, scm_get_error());
+                return sc->NIL;
+        }
+
+        if (! renderer) {
+                log_error("%s: NULL renderer\n", __FUNCTION__);
+                return sc->NIL;
+        }
+
+        if (! (texture = SDL_CreateTexture(renderer, SDL_PIXELFORMAT_RGBA8888, SDL_TEXTUREACCESS_TARGET, width, height))) {
+                log_error("%s: SDL_CreateTextureFromSurface: %s\n",
+                          __FUNCTION__, SDL_GetError());
+                goto free_surface;
+        }
+
+        SDL_SetTextureBlendMode(texture, SDL_BLENDMODE_BLEND);
+
+        log_debug("%s: %p\n", __FUNCTION__, texture);
+        result = scm_mk_ptr(sc, texture);
+
+free_surface:
+        SDL_FreeSurface(surface);
+        return result;
+}
 
 /**
  * Wrapper that combines IMG_Load with SDL_CreateTextureFromSurface.
@@ -361,6 +427,37 @@ static pointer ts_sdl2_destroy_texture(scheme *sc, pointer args)
         return sc->T;
 }
 
+
+/**
+ * Wrapper for SDL_RenderTarget.
+ *
+ * (sdl2-set-render-target renderer texture)
+ *
+ */
+static pointer ts_sdl2_set_render_target(scheme *sc, pointer args)
+{
+        SDL_Renderer *renderer=NULL;
+        SDL_Texture *texture=NULL;
+
+        if (scm_unpack(sc, &args, "ppll", &renderer, &texture)) {
+                log_error("%s: %s\n", __FUNCTION__, scm_get_error());
+                return sc->NIL;
+        }
+
+        if (! renderer) {
+                log_error("%s: NULL renderer\n", __FUNCTION__);
+                return sc->NIL;
+        }
+
+        if (! texture) {
+                log_error("%s: NULL texture\n", __FUNCTION__);
+                return sc->NIL;
+        }
+
+        SDL_SetRenderTarget(renderer,texture);
+
+        return sc->T;
+}
 
 /**
  * Wrapper for SDL_RenderCopy.
@@ -440,12 +537,15 @@ void init_ts_sdl2(scheme *sc)
     scm_define_api_call(sc, "sdl2-destroy-window", ts_sdl2_destroy_window);
     scm_define_api_call(sc, "sdl2-get-ticks", ts_sdl2_get_ticks);
     scm_define_api_call(sc, "sdl2-init", ts_sdl2_init);
+    scm_define_api_call(sc, "sdl2-create-texture", ts_sdl2_create_texture);
     scm_define_api_call(sc, "sdl2-load-texture", ts_sdl2_load_texture);
     scm_define_api_call(sc, "sdl2-poll-event", ts_sdl2_poll_event);
     scm_define_api_call(sc, "sdl2-render-clear", ts_sdl2_render_clear);
+    scm_define_api_call(sc, "sdl2-render-draw-point", ts_sdl2_render_draw_point);
     scm_define_api_call(sc, "sdl2-render-draw-line", ts_sdl2_render_draw_line);
     scm_define_api_call(sc, "sdl2-render-present", ts_sdl2_render_present);
     scm_define_api_call(sc, "sdl2-set-render-draw-color", ts_sdl2_set_render_draw_color);
+    scm_define_api_call(sc, "sdl2-set-render-target", ts_sdl2_set_render_target);
     scm_define_api_call(sc, "sdl2-render-copy", ts_sdl2_render_copy);
 
     // Add missing constants for event handling

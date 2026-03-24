@@ -1,5 +1,6 @@
 (load-extension "../tinyscheme-sdl2/ts_sdl2")
 (load-extension "../tinyscheme-sdl2/ts_util")
+
 (load "../tinyscheme-sdl2/event-handling.scm")
 
 
@@ -28,6 +29,9 @@
 
 (define (turtle-pen-up) (set! *isPenDown* #f))
 
+(define (turtle-pen-color r g b a)
+    (sdl2-set-render-draw-color *renderer* r g b a))
+
 (define (turtle-jump x y)
     (set! *x* x)
     (set! *y* y))
@@ -41,9 +45,6 @@
 (define (turtle-clean)
     (sdl2-render-clear *renderer*)
     (sdl2-render-present *renderer*))
-
-(define (turtle-set-color r g b a)
-    (sdl2-set-render-draw-color *renderer* r g b a))
 
 (define (turtle-star size)
     (do ((i 0 (+ i 1))) ((>= i 5))
