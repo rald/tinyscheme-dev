@@ -45,11 +45,3 @@
 (define (turtle-clean)
     (sdl2-render-clear *renderer*)
     (sdl2-render-present *renderer*))
-
-(define (turtle-star size)
-    (do ((i 0 (+ i 1))) ((>= i 5))
-        (turtle-move size)
-        (turtle-turn 144)))
-
-
-

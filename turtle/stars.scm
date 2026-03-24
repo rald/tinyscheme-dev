@@ -7,6 +7,13 @@
 
 
 
+(define (draw-star size)
+    (do ((i 0 (+ i 1))) ((>= i 5))
+        (turtle-move size)
+        (turtle-turn 144)))
+
+
+
 (sdl2-init)
 
 (define *window* (sdl2-create-window *screen-width* *screen-height*))
@@ -41,7 +48,7 @@
         sdl2-alpha-opaque
     )
 
-    (turtle-star (+ 50 (modulo (util-rand) 50)))
+    (draw-star (+ 50 (modulo (util-rand) 50)))
 )
 
 
