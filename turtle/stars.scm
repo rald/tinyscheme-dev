@@ -4,6 +4,7 @@
 
 (define *screen-width* 640)
 (define *screen-height* 480)
+(define *running* #t)
 
 
 
