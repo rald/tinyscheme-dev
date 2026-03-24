@@ -11,7 +11,6 @@
 
 (define *window* (sdl2-create-window *screen-width* *screen-height*))
 (define *renderer* (sdl2-create-renderer *window*))
-(define *texture* (sdl2-create-texture *renderer* *screen-width* *screen-height*))
 
 (add-event-handler sdl2-key-down
     (lambda (event-id scancode)
