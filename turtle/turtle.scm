@@ -29,18 +29,18 @@
 
 (define (turtle-pen-up) (set! *isPenDown* #f))
 
-(define (turtle-pen-color r g b a)
+(define (turtle-set-pen-color r g b a)
     (sdl2-set-render-draw-color *renderer* r g b a))
+
+(define (turtle-set-x x) (set! *x* x))
+
+(define (turtle-set-y y) (set! *y* y))
 
 (define (turtle-jump x y)
     (set! *x* x)
     (set! *y* y))
 
-(define (turtle-home)
-    (set! *x* 320)
-    (set! *y* 240))
-
-(define (turtle-face angle) (set! *heading* angle))
+(define (turtle-set-head angle) (set! *heading* angle))
 
 (define (turtle-clean)
     (sdl2-render-clear *renderer*)

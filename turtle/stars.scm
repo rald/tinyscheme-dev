@@ -24,7 +24,7 @@
 
 
 (util-srand (util-time))
-(turtle-pen-color 0 0 0 sdl2-alpha-opaque)
+(turtle-set-pen-color 0 0 0 sdl2-alpha-opaque)
 (turtle-clean)
 
 
@@ -34,9 +34,9 @@
         (modulo (util-rand) *screen-height*)
     )
 
-    (turtle-face (modulo (util-rand) 360))
+    (turtle-set-head (modulo (util-rand) 360))
 
-    (turtle-pen-color
+    (turtle-set-pen-color
         (modulo (util-rand) 256)
         (modulo (util-rand) 256)
         (modulo (util-rand) 256)
