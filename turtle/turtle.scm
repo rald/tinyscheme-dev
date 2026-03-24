@@ -40,7 +40,7 @@
     (set! *x* x)
     (set! *y* y))
 
-(define (turtle-set-head angle) (set! *heading* angle))
+(define (turtle-set-heading angle) (set! *heading* angle))
 
 (define (turtle-clean)
     (sdl2-render-clear *renderer*)

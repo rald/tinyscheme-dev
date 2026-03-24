@@ -32,7 +32,7 @@
         (modulo (util-rand) *screen-height*)
     )
 
-    (turtle-set-head (modulo (util-rand) 360))
+    (turtle-set-heading (modulo (util-rand) 360))
 
     (turtle-set-pen-color
         (modulo (util-rand) 256)
