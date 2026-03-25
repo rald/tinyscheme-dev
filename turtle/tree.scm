@@ -47,6 +47,8 @@
 (turtle-set-pen-color 0 0 0 255)
 (turtle-clean)
 
+(turtle-jump (quotient *screen-width* 2) (quotient *screen-height* 2))
+
 (turtle-turn -90)
 (turtle-pen-up)
 (turtle-move -100)

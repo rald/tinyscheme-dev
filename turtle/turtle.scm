@@ -5,8 +5,8 @@
 
 
 
-(define *turtle-x* 320.0)
-(define *turtle-y* 240.0)
+(define *turtle-x* 0)
+(define *turtle-y* 0)
 (define *turtle-heading* 0.0)
 (define *turtle-is-pen-down* #t)
 (define *turtle-running* #t)
@@ -55,6 +55,7 @@
 
 (define (turtle-set-y y) (set! *turtle-y* y))
 
+(define (turtle-set-heading angle) (set! *turtle-heading* angle))
+
 (define (turtle-jump x y) (set! *turtle-x* x) (set! *turtle-y* y))
 
-(define (turtle-set-heading angle) (set! *turtle-heading* angle))

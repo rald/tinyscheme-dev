@@ -38,6 +38,8 @@
 (turtle-set-pen-color 0 0 0 255)
 (turtle-clean)
 
+(turtle-jump (quotient *screen-width* 2) (quotient *screen-height* 2))
+
 (do ((i 0 (+ i 1))) ((= i 100))
     (let* ( (r (modulo (util-rand) 256))
             (g (modulo (util-rand) 256))
