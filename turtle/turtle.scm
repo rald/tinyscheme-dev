@@ -7,7 +7,7 @@
 
 (define *turtle-x* 0)
 (define *turtle-y* 0)
-(define *turtle-heading* 0.0)
+(define *turtle-heading* 0)
 (define *turtle-is-pen-down* #t)
 (define *turtle-running* #t)
 (define *PI* 3.14159265358979323846)
