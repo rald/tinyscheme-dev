@@ -189,6 +189,8 @@
         (sdl2-render-copy *renderer* *texture0* () ())
         (sdl2-render-present *renderer*)
 
+        (sdl2-delay (/ 1000 *turtle-speed*))
+
         (let ((event (sdl2-poll-event)))
             (if (not (eq? event #f))
                 (handle-event event)))
@@ -208,4 +210,6 @@
     (sdl2-render-copy *renderer* *texture1* () ())
     (sdl2-render-copy *renderer* *texture0* () ())
     (sdl2-render-present *renderer*)
+
+    (sdl2-delay (/ 1000 *turtle-speed*))
 )
