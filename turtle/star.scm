@@ -13,8 +13,6 @@
 (define *renderer* (sdl2-create-renderer *window*))
 (define *texture0* (sdl2-create-texture *renderer* *screen-width* *screen-height*))
 (define *texture1* (sdl2-create-texture *renderer* *screen-width* *screen-height*))
-
-(sdl2-set-render-draw-blend-mode *renderer* sdl2-blend-mode-blend)
 (sdl2-set-texture-blend-mode *texture0* sdl2-blend-mode-blend)
 (sdl2-set-texture-blend-mode *texture1* sdl2-blend-mode-blend)
 
@@ -42,8 +40,6 @@
 
 (draw-star 100)
 (turtle-hide)
-
-
 
 (do () ((not *turtle-running*))
     (let ((event (sdl2-poll-event)))
