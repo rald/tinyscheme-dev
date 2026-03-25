@@ -2,6 +2,7 @@
 
 (load "./turtle.scm")
 
+(define *game-title* "Turtle: Stars")
 (define *screen-width* 640)
 (define *screen-height* 480)
 
@@ -9,7 +10,7 @@
 
 (sdl2-init)
 
-(define *window* (sdl2-create-window *screen-width* *screen-height*))
+(define *window* (sdl2-create-window *game-title* *screen-width* *screen-height*))
 (define *renderer* (sdl2-create-renderer *window*))
 
 (add-event-handler sdl2-key-down

@@ -44,15 +44,16 @@ static pointer ts_sdl2_create_window(scheme *sc, pointer args)
 {
         SDL_Window *window;
         int width, height;
+        char *title=NULL;
 
-        if (scm_unpack(sc, &args, "dd", &width, &height)) {
+        if (scm_unpack(sc, &args, "sdd", &title, &width, &height)) {
                 log_error("%s: %s\n", __FUNCTION__, scm_get_error());
                 return sc->NIL;
         }
 
         /* Create the main window */
         if (! (window = SDL_CreateWindow(
-                       "Demo", SDL_WINDOWPOS_UNDEFINED,
+                       title, SDL_WINDOWPOS_UNDEFINED,
                        SDL_WINDOWPOS_UNDEFINED, width, height,
                        SDL_WINDOW_OPENGL | SDL_WINDOW_SHOWN))) {
                 log_error("SDL_CreateWindow: %s\n", SDL_GetError());
@@ -60,7 +61,9 @@ static pointer ts_sdl2_create_window(scheme *sc, pointer args)
         }
 
         /* Return the window as a foreign pointer. */
+
         log_debug("%s: %p\n", __FUNCTION__, window);
+
         return scm_mk_ptr(sc, window);
 }
 
@@ -106,6 +109,10 @@ static pointer ts_sdl2_create_renderer(scheme *sc, pointer args)
         }
 
         log_debug("%s: %p\n", __FUNCTION__, renderer);
+
+        SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
+        SDL_RenderClear(renderer);
+        SDL_RenderPresent(renderer);
 
         return scm_mk_ptr(sc, renderer);
 }
@@ -322,7 +329,7 @@ static pointer ts_sdl2_poll_event(scheme *sc, pointer args)
                 }
                 break;
         case SDL_KEYDOWN:
-                if (scm_pack(sc, &head, "dd", event.type, 
+                if (scm_pack(sc, &head, "dd", event.type,
                              event.key.keysym.scancode)) {
                         log_error("%s: %s\\n", __FUNCTION__, scm_get_error());
                         head = sc->NIL;
