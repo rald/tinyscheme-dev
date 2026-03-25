@@ -169,7 +169,6 @@
                         (sdl2-render-draw-line *renderer* *turtle-x* *turtle-y* nx ny)
                     )
                 )
-
                 (sdl2-set-render-target *renderer* ())
 
                 (set! *turtle-x* nx)
