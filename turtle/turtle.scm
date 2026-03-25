@@ -126,14 +126,14 @@
 
     (sdl2-set-render-target *renderer* *texture1*)
     (sdl2-set-render-draw-color *renderer* 0 0 0 255)
-    (turtle-draw turtle-vector *turtle-heading*)
+    (sdl2-render-clear *renderer*)
     (sdl2-set-render-target *renderer* ())
 
     (do () ((or (= *turtle-state* *turtle-state-idle*) (not *turtle-running*)))
 
         (sdl2-set-render-target *renderer* *texture1*)
         (sdl2-set-render-draw-color *renderer* 0 0 0 255)
-        (turtle-draw turtle-vector *turtle-heading*)
+        (sdl2-render-clear *renderer*)
         (sdl2-set-render-target *renderer* ())
 
         (if (= *turtle-state* *turtle-state-moving*)
