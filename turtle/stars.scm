@@ -55,6 +55,7 @@
 )
 
 
+
 (sdl2-render-present *renderer*)
 
 (do () ((not *turtle-running*))
@@ -65,4 +66,5 @@
 
 (sdl2-destroy-renderer *renderer*)
 (sdl2-destroy-window *window*)
+
 

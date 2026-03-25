@@ -23,7 +23,6 @@
 
 
 
-
 (define (draw-tree len)
     (if (> len 5)
         (begin
