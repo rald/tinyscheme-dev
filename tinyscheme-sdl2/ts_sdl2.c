@@ -105,8 +105,6 @@ static pointer ts_sdl2_create_renderer(scheme *sc, pointer args)
                 return sc->NIL;
         }
 
-        SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_BLEND);
-
         log_debug("%s: %p\n", __FUNCTION__, renderer);
 
         return scm_mk_ptr(sc, renderer);
@@ -130,9 +128,50 @@ static pointer ts_sdl2_destroy_renderer(scheme *sc, pointer args)
         log_debug("%s: %p\n", __FUNCTION__, renderer);
 
         SDL_DestroyRenderer(renderer);
-        return sc->T;
 
+        return sc->T;
 }
+
+/**
+ * Wrapper for SDL_SetRenderDrawBlendMode.
+ *
+ * (sdl2-set-render-draw-blend-mode renderer blend-mode)
+ */
+static pointer ts_sdl2_set_render_draw_blend_mode(scheme *sc, pointer args)
+{
+        SDL_Renderer *renderer=NULL;
+        int blend_mode;
+
+        if (scm_unpack(sc, &args, "pd", &renderer, &blend_mode)) {
+                log_error("%s: %s\n", __FUNCTION__, scm_get_error());
+                return sc->NIL;
+        }
+
+        SDL_SetRenderDrawBlendMode(renderer,blend_mode);
+
+        return sc->T;
+}
+
+/**
+ * Wrapper for SDL_SetTextureBlendMode.
+ *
+ * (sdl2-set-texture-blend-mode renderer blend-mode)
+ */
+static pointer ts_sdl2_set_texture_blend_mode(scheme *sc, pointer args)
+{
+        SDL_Texture *texture=NULL;
+        int blend_mode;
+
+        if (scm_unpack(sc, &args, "pd", &texture, &blend_mode)) {
+                log_error("%s: %s\n", __FUNCTION__, scm_get_error());
+                return sc->NIL;
+        }
+
+        SDL_SetTextureBlendMode(texture, blend_mode);
+
+        return sc->T;
+}
+
 
 
 /**
@@ -157,6 +196,7 @@ static pointer ts_sdl2_set_render_draw_color(scheme *sc, pointer args)
                 log_error("%s: NULL renderer\n", __FUNCTION__);
                 return sc->NIL;
         }
+
         SDL_SetRenderDrawColor(renderer, red, green, blue, alpha);
 
         return sc->T;
@@ -327,7 +367,7 @@ static pointer ts_sdl2_get_ticks(scheme *sc, pointer args)
 }
 
 /**
- * Wrapper that combines IMG_Load with SDL_CreateTexture.
+ * Wrapper for SDL_CreateTexture.
  *
  * (sdl2-create-texture renderer width height)
  */
@@ -352,12 +392,6 @@ static pointer ts_sdl2_create_texture(scheme *sc, pointer args)
                           __FUNCTION__, SDL_GetError());
                 return sc->NIL;
         }
-
-        SDL_SetTextureBlendMode(texture, SDL_BLENDMODE_BLEND);
-        SDL_SetRenderTarget(renderer, texture);
-        SDL_SetRenderDrawColor(renderer, 0, 0, 0, 0);
-        SDL_RenderClear(renderer);
-        SDL_SetRenderTarget(renderer, NULL);
 
         log_debug("%s: %p\n", __FUNCTION__, texture);
 
@@ -542,12 +576,15 @@ void init_ts_sdl2(scheme *sc)
     scm_define_api_call(sc, "sdl2-render-clear", ts_sdl2_render_clear);
     scm_define_api_call(sc, "sdl2-render-draw-point", ts_sdl2_render_draw_point);
     scm_define_api_call(sc, "sdl2-render-draw-line", ts_sdl2_render_draw_line);
+    scm_define_api_call(sc, "sdl2-set-render-draw-blend-mode", ts_sdl2_set_render_draw_blend_mode);
+    scm_define_api_call(sc, "sdl2-set-texture-blend-mode", ts_sdl2_set_texture_blend_mode);
     scm_define_api_call(sc, "sdl2-render-present", ts_sdl2_render_present);
     scm_define_api_call(sc, "sdl2-set-render-draw-color", ts_sdl2_set_render_draw_color);
     scm_define_api_call(sc, "sdl2-set-render-target", ts_sdl2_set_render_target);
     scm_define_api_call(sc, "sdl2-render-copy", ts_sdl2_render_copy);
 
     // Add missing constants for event handling
+    scm_define_int(sc, "sdl2-blend-mode-blend", SDL_BLENDMODE_BLEND);
     scm_define_int(sc, "sdl2-alpha-opaque", SDL_ALPHA_OPAQUE);
     scm_define_int(sc, "sdl2-mouse-button-down", SDL_MOUSEBUTTONDOWN);
     scm_define_int(sc, "sdl2-quit", SDL_QUIT);

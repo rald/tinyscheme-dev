@@ -10,7 +10,7 @@
 (define *turtle-heading* 0.0)
 (define *turtle-is-pen-down* #t)
 (define *turtle-is-visible* #t)
-(define *turtle-speed* 1000)
+(define *turtle-speed* 100)
 (define *turtle-pen-color* '(255 255 255 255))
 (define *PI* 3.14159265358979323846)
 
@@ -122,26 +122,19 @@
             (y1 (+ (* (cadr pr1) 8) *turtle-y*)))
         (sdl2-render-draw-line *renderer* x0 y0 x1 y1)))
 
-
-
 (define (turtle-update)
 
-    (sdl2-set-render-target *renderer* *texture0*)
+    (sdl2-set-render-target *renderer* *texture1*)
     (sdl2-set-render-draw-color *renderer* 0 0 0 255)
-    (sdl2-render-clear *renderer*)
-
-    (if *turtle-is-visible*
-        (begin
-            (sdl2-set-render-target *renderer* *texture0*)
-            (sdl2-set-render-draw-color *renderer* 0 0 0 255)
-            (sdl2-render-clear *renderer*)
-            (sdl2-set-render-draw-color *renderer* 255 255 255 255)
-            (turtle-draw turtle-vector *turtle-heading*)
-            (sdl2-set-render-target *renderer* ())
-        )
-    )
+    (turtle-draw turtle-vector *turtle-heading*)
+    (sdl2-set-render-target *renderer* ())
 
     (do () ((or (= *turtle-state* *turtle-state-idle*) (not *turtle-running*)))
+
+        (sdl2-set-render-target *renderer* *texture1*)
+        (sdl2-set-render-draw-color *renderer* 0 0 0 255)
+        (turtle-draw turtle-vector *turtle-heading*)
+        (sdl2-set-render-target *renderer* ())
 
         (if (= *turtle-state* *turtle-state-moving*)
 
@@ -151,9 +144,9 @@
                         (ny (+ *turtle-y* (* d (sin (deg2rad *turtle-heading*)))))
                     )
 
-                (sdl2-set-render-target *renderer* *texture1*)
                 (if *turtle-is-pen-down*
                     (begin
+                        (sdl2-set-render-target *renderer* *texture0*)
                         (sdl2-set-render-draw-color *renderer*
                             (list-ref *turtle-pen-color* 0)
                             (list-ref *turtle-pen-color* 1)
@@ -161,9 +154,9 @@
                             (list-ref *turtle-pen-color* 3)
                         )
                         (sdl2-render-draw-line *renderer* *turtle-x* *turtle-y* nx ny)
+                        (sdl2-set-render-target *renderer* ())
                     )
                 )
-                (sdl2-set-render-target *renderer* ())
 
                 (set! *turtle-x* nx)
                 (set! *turtle-y* ny)
@@ -174,6 +167,7 @@
         )
 
         (if (= *turtle-state* *turtle-state-turning*)
+
             (let* ((a (sgn *turtle-dh*)))
                 (set! *turtle-heading* (normalize-angle (+ *turtle-heading* a)))
                 (set! *turtle-dh* (- *turtle-dh* a))
@@ -181,38 +175,37 @@
                 (if (= *turtle-dh* 0) (set! *turtle-state* *turtle-state-idle*))            )
         )
 
-        (sdl2-set-render-target *renderer* *texture0*)
-        (sdl2-set-render-draw-color *renderer* 0 0 0 255)
-        (sdl2-render-clear *renderer*)
-
         (if *turtle-is-visible*
             (begin
-                (sdl2-set-render-target *renderer* *texture0*)
-                (sdl2-set-render-draw-color *renderer* 0 0 0 255)
-                (sdl2-render-clear *renderer*)
+                (sdl2-set-render-target *renderer* *texture1*)
                 (sdl2-set-render-draw-color *renderer* 255 255 255 255)
                 (turtle-draw turtle-vector *turtle-heading*)
                 (sdl2-set-render-target *renderer* ())
             )
         )
 
-
         (sdl2-set-render-target *renderer* ())
-        (sdl2-render-copy *renderer* *texture0* () ())
         (sdl2-render-copy *renderer* *texture1* () ())
+        (sdl2-render-copy *renderer* *texture0* () ())
         (sdl2-render-present *renderer*)
 
         (let ((event (sdl2-poll-event)))
             (if (not (eq? event #f))
                 (handle-event event)))
 
-        (sdl2-delay (/ 1000 *turtle-speed*))
+    )
+
+    (if *turtle-is-visible*
+        (begin
+            (sdl2-set-render-target *renderer* *texture1*)
+            (sdl2-set-render-draw-color *renderer* 255 255 255 255)
+            (turtle-draw turtle-vector *turtle-heading*)
+            (sdl2-set-render-target *renderer* ())
+        )
     )
 
     (sdl2-set-render-target *renderer* ())
-    (sdl2-render-copy *renderer* *texture0* () ())
     (sdl2-render-copy *renderer* *texture1* () ())
-
+    (sdl2-render-copy *renderer* *texture0* () ())
     (sdl2-render-present *renderer*)
-
 )
