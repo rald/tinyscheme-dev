@@ -11,6 +11,10 @@
 
 (define *window* (sdl2-create-window *screen-width* *screen-height*))
 (define *renderer* (sdl2-create-renderer *window*))
+(define *texture0* (sdl2-create-texture *renderer* *screen-width* *screen-height*))
+(define *texture1* (sdl2-create-texture *renderer* *screen-width* *screen-height*))
+(sdl2-set-texture-blend-mode *texture0* sdl2-blend-mode-blend)
+(sdl2-set-texture-blend-mode *texture1* sdl2-blend-mode-blend)
 
 (add-event-handler sdl2-key-down
     (lambda (event-id scancode)
@@ -34,14 +38,11 @@
 
 (util-srand (util-time))
 
-(turtle-set-pen-color 0 0 0 255)
-(turtle-clean)
 (turtle-set-pen-color 255 255 255 255)
+(turtle-clean)
+(turtle-set-pen-color 0 0 128 255)
 (draw-star 100)
-
-
-
-(sdl2-render-present *renderer*)
+(turtle-hide)
 
 (do () ((not *turtle-running*))
     (let ((event (sdl2-poll-event)))
