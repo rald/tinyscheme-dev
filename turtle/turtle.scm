@@ -10,7 +10,7 @@
 (define *turtle-heading* 0.0)
 (define *turtle-is-pen-down* #t)
 (define *turtle-is-visible* #t)
-(define *turtle-speed* 120)
+(define *turtle-speed* 60)
 (define *turtle-pen-color* '(255 255 255 255))
 (define *PI* 3.14159265358979323846)
 
