@@ -11,10 +11,7 @@
 (define *turtle-is-pen-down* #t)
 (define *turtle-is-visible* #t)
 (define *turtle-speed* 1000)
-(define *turtle-pen-color-r* 255)
-(define *turtle-pen-color-g* 255)
-(define *turtle-pen-color-b* 255)
-(define *turtle-pen-color-a* 255)
+(define *turtle-pen-color* '(255 255 255 255))
 (define *PI* 3.14159265358979323846)
 
 (define *turtle-dd* 0)
@@ -89,10 +86,7 @@
 (define (turtle-pen-up) (set! *turtle-is-pen-down* #f))
 
 (define (turtle-set-pen-color r g b a)
-    (set! *turtle-pen-color-r* r)
-    (set! *turtle-pen-color-g* g)
-    (set! *turtle-pen-color-b* b)
-    (set! *turtle-pen-color-a* a)
+    (set! *turtle-pen-color* (list r g b a))
 )
 
 (define (turtle-set-x x) (set! *turtle-x* x))
@@ -161,10 +155,10 @@
                 (if *turtle-is-pen-down*
                     (begin
                         (sdl2-set-render-draw-color *renderer*
-                            *turtle-pen-color-r*
-                            *turtle-pen-color-g*
-                            *turtle-pen-color-b*
-                            *turtle-pen-color-a*
+                            (list-ref *turtle-pen-color* 0)
+                            (list-ref *turtle-pen-color* 1)
+                            (list-ref *turtle-pen-color* 2)
+                            (list-ref *turtle-pen-color* 3)
                         )
                         (sdl2-render-draw-line *renderer* *turtle-x* *turtle-y* nx ny)
                     )
