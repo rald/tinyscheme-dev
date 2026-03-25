@@ -100,12 +100,15 @@ static pointer ts_sdl2_create_renderer(scheme *sc, pointer args)
                 return sc->NIL;
         }
 
-        if (! (renderer = SDL_CreateRenderer(window, -1, 0))) {
+        if (! (renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_TARGETTEXTURE))) {
                 log_error("SDL_CreateRenderer: %s\n", SDL_GetError());
                 return sc->NIL;
         }
 
+        SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_BLEND);
+
         log_debug("%s: %p\n", __FUNCTION__, renderer);
+
         return scm_mk_ptr(sc, renderer);
 }
 
@@ -175,6 +178,7 @@ static pointer ts_sdl2_render_clear(scheme *sc, pointer args)
         }
 
         SDL_RenderClear(renderer);
+
         return sc->T;
 }
 
@@ -330,10 +334,8 @@ static pointer ts_sdl2_get_ticks(scheme *sc, pointer args)
 static pointer ts_sdl2_create_texture(scheme *sc, pointer args)
 {
         SDL_Renderer *renderer=NULL;
-        SDL_Surface *surface=NULL;
         SDL_Texture *texture=NULL;
         int width, height;
-        pointer result = sc->NIL;
 
         if (scm_unpack(sc, &args, "pdd", &renderer, &width, &height)) {
                 log_error("%s: %s\n", __FUNCTION__, scm_get_error());
@@ -348,17 +350,18 @@ static pointer ts_sdl2_create_texture(scheme *sc, pointer args)
         if (! (texture = SDL_CreateTexture(renderer, SDL_PIXELFORMAT_RGBA8888, SDL_TEXTUREACCESS_TARGET, width, height))) {
                 log_error("%s: SDL_CreateTextureFromSurface: %s\n",
                           __FUNCTION__, SDL_GetError());
-                goto free_surface;
+                return sc->NIL;
         }
 
         SDL_SetTextureBlendMode(texture, SDL_BLENDMODE_BLEND);
+        SDL_SetRenderTarget(renderer, texture);
+        SDL_SetRenderDrawColor(renderer, 0, 0, 0, 0);
+        SDL_RenderClear(renderer);
+        SDL_SetRenderTarget(renderer, NULL);
 
         log_debug("%s: %p\n", __FUNCTION__, texture);
-        result = scm_mk_ptr(sc, texture);
 
-free_surface:
-        SDL_FreeSurface(surface);
-        return result;
+        return scm_mk_ptr(sc, texture);
 }
 
 /**
@@ -439,7 +442,7 @@ static pointer ts_sdl2_set_render_target(scheme *sc, pointer args)
         SDL_Renderer *renderer=NULL;
         SDL_Texture *texture=NULL;
 
-        if (scm_unpack(sc, &args, "ppll", &renderer, &texture)) {
+        if (scm_unpack(sc, &args, "pp", &renderer, &texture)) {
                 log_error("%s: %s\n", __FUNCTION__, scm_get_error());
                 return sc->NIL;
         }
@@ -449,12 +452,7 @@ static pointer ts_sdl2_set_render_target(scheme *sc, pointer args)
                 return sc->NIL;
         }
 
-        if (! texture) {
-                log_error("%s: NULL texture\n", __FUNCTION__);
-                return sc->NIL;
-        }
-
-        SDL_SetRenderTarget(renderer,texture);
+        SDL_SetRenderTarget(renderer, texture);
 
         return sc->T;
 }
@@ -514,6 +512,7 @@ static pointer ts_sdl2_render_copy(scheme *sc, pointer args)
                           SDL_GetError());
                 return sc->NIL;
         }
+
         return sc->T;
 }
 
